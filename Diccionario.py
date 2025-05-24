@@ -6,7 +6,7 @@ class Termino:
     def __str__(self):
         return f"{self.palabra}: {self.definicion}"
 
-# Almacenar datos en arbol binario
+# --- Clase ABB (Árbol Binario de Búsqueda) ---
 class ABB:
     class Nodo:
         def __init__(self, termino):
@@ -37,7 +37,7 @@ class ABB:
                 self._insertar(termino, nodo_actual.derecha)
 
     def buscar(self, palabra):
-        return self._buscar(palabra, self.raiz)
+        return self._buscar(palabra.lower(), self.raiz)
 
     def _buscar(self, palabra, nodo_actual):
         if nodo_actual is None:
@@ -59,8 +59,8 @@ class ABB:
             self._listar(nodo_actual.izquierda, terminos)
             terminos.append(nodo_actual.termino)
             self._listar(nodo_actual.derecha, terminos)
-            
-# Terminos frecuentes (Tabla de hash)
+
+# --- Clase TablaHash (Términos frecuentes) ---
 class TablaHash:
     def __init__(self):
         self.tabla = {}
@@ -73,8 +73,8 @@ class TablaHash:
 
     def listar(self):
         return list(self.tabla.keys())
-    
-# Diccionario de programación
+
+# --- Clase DiccionarioProgramacion ---
 class DiccionarioProgramacion:
     def __init__(self):
         self.arbol = ABB()
@@ -82,24 +82,58 @@ class DiccionarioProgramacion:
         self._cargar_datos_iniciales()
 
     def _cargar_datos_iniciales(self):
-        # Datos iniciales (10 términos de programación)
+        # Términos de programación (30 en total)
         terminos = [
-            ("clase", "Plantilla para crear objetos en POO."),
-            ("objeto", "Instancia de una clase."),
-            ("loop", "Estructura que repite un bloque de código."),
-            ("variable", "Espacio en memoria que almacena un valor."),
-            ("función", "Bloque de código reutilizable."),
-            ("API", "Interfaz para comunicación entre software."),
-            ("herencia", "Mecanismo para reutilizar atributos de una clase."),
-            ("polimorfismo", "Capacidad de un objeto de tomar múltiples formas."),
+            # Fundamentos
             ("algoritmo", "Conjunto ordenado de pasos para resolver un problema."),
-            ("sintaxis", "Reglas para escribir código correctamente.")
+            ("variable", "Espacio en memoria que almacena un valor."),
+            ("función", "Bloque de código reutilizable que realiza una tarea."),
+            ("sintaxis", "Reglas que definen cómo escribir código correctamente."),
+            ("compilador", "Programa que traduce código fuente a lenguaje máquina."),
+            
+            # POO
+            ("clase", "Plantilla para crear objetos en programación orientada a objetos."),
+            ("objeto", "Instancia de una clase."),
+            ("herencia", "Mecanismo donde una clase adquiere atributos de otra."),
+            ("polimorfismo", "Capacidad de un objeto de tomar muchas formas."),
+            ("encapsulamiento", "Ocultamiento de los detalles internos de un objeto."),
+            
+            # Estructuras de datos
+            ("array", "Colección ordenada de elementos del mismo tipo."),
+            ("lista", "Estructura de datos que almacena elementos de manera secuencial."),
+            ("pila", "Estructura LIFO (Last In, First Out)."),
+            ("cola", "Estructura FIFO (First In, First Out)."),
+            ("grafo", "Conjunto de nodos conectados por aristas."),
+            
+            # Bases de datos
+            ("SQL", "Lenguaje para gestionar bases de datos relacionales."),
+            ("tabla", "Estructura que organiza datos en filas y columnas."),
+            ("clave primaria", "Identificador único de un registro en una tabla."),
+            ("índice", "Estructura que mejora la velocidad de búsqueda en una tabla."),
+            ("transacción", "Secuencia de operaciones atómicas en una base de datos."),
+            
+            # Web
+            ("API", "Interfaz para comunicación entre componentes de software."),
+            ("HTTP", "Protocolo para transferencia de hipertexto en la web."),
+            ("JSON", "Formato ligero para intercambio de datos."),
+            ("frontend", "Parte de una aplicación que interactúa con el usuario."),
+            ("backend", "Parte de una aplicación que procesa datos en el servidor."),
+            
+            # Otros
+            ("debug", "Proceso de identificar y corregir errores en el código."),
+            ("git", "Sistema de control de versiones distribuido."),
+            ("loop", "Estructura que repite un bloque de código."),
+            ("recursión", "Función que se llama a sí misma."),
+            ("framework", "Conjunto de herramientas para desarrollar software.")
         ]
+
+        # Insertar todos los términos en el ABB
         for palabra, definicion in terminos:
             self.arbol.insertar(palabra, definicion)
 
-        # Términos frecuentes (5 ejemplos)
-        frecuentes = ["clase", "loop", "variable", "función", "API"]
+        # Términos frecuentes (10 ejemplos)
+        frecuentes = ["clase", "objeto", "función", "variable", "API", 
+                     "SQL", "loop", "array", "debug", "git"]
         for palabra in frecuentes:
             definicion = self.arbol.buscar(palabra)
             if definicion:
@@ -117,4 +151,52 @@ class DiccionarioProgramacion:
     def obtener_definicion_frecuente(self, palabra):
         return self.tabla_hash.buscar(palabra)
 
+# --- Clase Consola (Interfaz) ---
+class Consola:
+    def __init__(self):
+        self.diccionario = DiccionarioProgramacion()
 
+    def mostrar_menu(self):
+        print("\n--- Diccionario de Programación ---")
+        print("1. Buscar definición")
+        print("2. Listar todas las palabras")
+        print("3. Mostrar términos frecuentes")
+        print("4. Salir")
+
+    def iniciar(self):
+        while True:
+            self.mostrar_menu()
+            opcion = input("Seleccione una opción: ").strip()
+
+            if opcion == "1":
+                palabra = input("Ingrese la palabra: ").strip().lower()
+                definicion = self.diccionario.buscar(palabra)
+                if definicion:
+                    print(f"Definición de '{palabra}': {definicion}")
+                else:
+                    print(f"La palabra '{palabra}' no existe. Prueba con: algoritmo, clase, función...")
+
+            elif opcion == "2":
+                palabras = self.diccionario.listar_todos()
+                print("Palabras disponibles (orden alfabético):")
+                for palabra in palabras:
+                    print(f"- {palabra}")
+
+            elif opcion == "3":
+                frecuentes = self.diccionario.listar_frecuentes()
+                print("Términos frecuentes:")
+                for palabra in frecuentes:
+                    definicion = self.diccionario.obtener_definicion_frecuente(palabra)
+                    print(f"- {palabra}: {definicion}")
+
+            elif opcion == "4":
+                print("¡Hasta luego!")
+                break
+
+            else:
+                print("Opción no válida. Intente de nuevo.")
+
+# --- Ejecución ---
+if __name__ == "__main__":
+    consola = Consola()
+    consola.iniciar()
