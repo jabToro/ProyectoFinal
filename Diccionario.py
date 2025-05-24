@@ -129,11 +129,10 @@ class DiccionarioProgramacion:
 
         # Insertar todos los términos en el ABB
         for palabra, definicion in terminos:
-            self.arbol.insertar(palabra, definicion)
+            self.arbol.insertar(palabra.lower(), definicion)
 
         # Términos frecuentes (10 ejemplos)
-        frecuentes = ["clase", "objeto", "función", "variable", "API", 
-                     "SQL", "loop", "array", "debug", "git"]
+        frecuentes = ["clase", "objeto", "funcion", "variable", "api", "sql", "loop", "array", "debug", "git"]
         for palabra in frecuentes:
             definicion = self.arbol.buscar(palabra)
             if definicion:
@@ -174,7 +173,7 @@ class Consola:
                 if definicion:
                     print(f"Definición de '{palabra}': {definicion}")
                 else:
-                    print(f"La palabra '{palabra}' no existe. Prueba con: algoritmo, clase, función...")
+                    print(f"La palabra '{palabra}' no existe. Prueba con: {', '.join(self.diccionario.listar_frecuentes()[:3])}...")
 
             elif opcion == "2":
                 palabras = self.diccionario.listar_todos()
@@ -188,7 +187,7 @@ class Consola:
                 for palabra in frecuentes:
                     definicion = self.diccionario.obtener_definicion_frecuente(palabra)
                     print(f"- {palabra}: {definicion}")
-
+ 
             elif opcion == "4":
                 print("¡Hasta luego!")
                 break
