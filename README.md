@@ -41,6 +41,9 @@ Definición de 'herencia': Mecanismo donde una clase adquiere atributos de otra.
    git clone https://github.com/jabToro/ProyectoFinal.git
    cd tu-repositorio
 
+## Video de pruba del codigo
+link: https://youtu.be/Tvk9-yXzbPs   
+
 ## Autores
 - Julián Andrés Bedoya Toro 
 - Mateo Restrepo Ciro
