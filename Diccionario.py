@@ -1,3 +1,4 @@
+# Organiza la información básica de cada término
 class Termino:
     def __init__(self, palabra, definicion):
         self.palabra = palabra
@@ -6,7 +7,7 @@ class Termino:
     def __str__(self):
         return f"{self.palabra}: {self.definicion}"
 
-# --- Clase ABB (Árbol Binario de Búsqueda) ---
+# Organiza los términos como un árbol donde cada palabra se coloca en orden alfabético. Y Las palabras "menores" van a la izquierda, las "mayores" a la derecha
 class ABB:
     class Nodo:
         def __init__(self, termino):
@@ -60,7 +61,7 @@ class ABB:
             terminos.append(nodo_actual.termino)
             self._listar(nodo_actual.derecha, terminos)
 
-# --- Clase TablaHash (Términos frecuentes) ---
+# Es como una agenda de contactos rápida para los 10 términos más usados. Esto es para no tener las palabras más comunes sin necesidad de recorrer nuevamente el arbol.
 class TablaHash:
     def __init__(self):
         self.tabla = {}
@@ -74,7 +75,7 @@ class TablaHash:
     def listar(self):
         return list(self.tabla.keys())
 
-# --- Clase DiccionarioProgramacion ---
+# Es el cerebro del programa. Carga los 30 términos al iniciar y basicamente une todo para que funcione como un diccionario real.
 class DiccionarioProgramacion:
     def __init__(self):
         self.arbol = ABB()
@@ -150,7 +151,7 @@ class DiccionarioProgramacion:
     def obtener_definicion_frecuente(self, palabra):
         return self.tabla_hash.buscar(palabra)
 
-# --- Clase Consola (Interfaz) ---
+# Menu que se muestra al ejecutar el programa. Permite al usuario buscar definiciones, listar palabras y mostrar términos frecuentes.
 class Consola:
     def __init__(self):
         self.diccionario = DiccionarioProgramacion()
@@ -195,7 +196,7 @@ class Consola:
             else:
                 print("Opción no válida. Intente de nuevo.")
 
-# --- Ejecución ---
+# Es como el inicio del programa. Crea una instancia de la consola y comienza a interactuar con el usuario.
 if __name__ == "__main__":
     consola = Consola()
     consola.iniciar()
